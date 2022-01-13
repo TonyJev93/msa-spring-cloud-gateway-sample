@@ -30,3 +30,9 @@ spring:
 #            - AddRequestHeader=second-request, second-request-header2 # {key}, {value} 순서
 #            - AddResponseHeader=second-response, second-response-header2 # {key}, {value} 순서
             - CustomFilter
+      default-filters: # 모든 서비스에 적용됨
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
