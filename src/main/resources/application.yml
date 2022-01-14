@@ -2,8 +2,8 @@ server:
   port: 8000
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
 
@@ -15,7 +15,7 @@ spring:
     gateway:
       routes:
         - id: first-service
-          uri: http://localhost:8081/
+          uri: lb://MY-FIRST-SERVICE
           predicates: # 조건정보
             - Path=/first-service/**  # 요청이 http://localhost:8081/first-service/** 로 넘어가므로 /first-service 주의
           filters:
@@ -23,13 +23,18 @@ spring:
 #            - AddResponseHeader=first-response, first-response-header2 # {key}, {value} 순서
             - CustomFilter
         - id: second-service
-          uri: http://localhost:8082/
+          uri: lb://MY-SECOND-SERVICE
           predicates: # 조건정보
             - Path=/second-service/**
           filters:
 #            - AddRequestHeader=second-request, second-request-header2 # {key}, {value} 순서
 #            - AddResponseHeader=second-response, second-response-header2 # {key}, {value} 순서
-            - CustomFilter
+            - name: CustomFilter
+            - name: LoggingFilter # 추가적인 파라미터 사용하려면 name 으로 구분지어줘야 함. (사용 안할 시 생략 가능)
+              args:
+                baseMessage: Hi, there.
+                preLogger: true
+                postLogger: true
       default-filters: # 모든 서비스에 적용됨
         - name: GlobalFilter
           args:
