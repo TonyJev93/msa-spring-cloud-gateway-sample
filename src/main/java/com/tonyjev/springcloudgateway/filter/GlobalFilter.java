@@ -26,12 +26,12 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
 
             log.info("Global filter baseMessage : {}", config.getBaseMessage());
 
-            if (config.isPreLogger()) {
+            if (config.isPreLogger()) {  // application.yml 에 설정된 값을 참고함.
                 log.info("Global filter start : request id  -> {}", request.getId());
             }
             // Custom Post Filter
             return chain.filter(exchange).then(Mono.fromRunnable(() -> { // Mono(웹플럭스 스프링5 추가) : 비동기 방식 단일값 전달 시 사용
-                if (config.isPostLogger()) {
+                if (config.isPostLogger()) {  // application.yml 에 설정된 값을 참고함.
                     log.info("Global filter end : response code -> {}", response.getStatusCode());
                 }
             }));

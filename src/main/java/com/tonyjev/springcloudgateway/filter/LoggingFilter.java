@@ -21,24 +21,7 @@ public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Co
 
     @Override
     public GatewayFilter apply(Config config) {
-//        return ((exchange, chain) -> {
-//            ServerHttpRequest request = exchange.getRequest();
-//            ServerHttpResponse response = exchange.getResponse();
-//
-//            log.info("Global filter baseMessage : {}", config.getBaseMessage());
-//
-//            if (config.isPreLogger()) {
-//                log.info("Global filter start : request id  -> {}", request.getId());
-//            }
-//            // Custom Post Filter
-//            return chain.filter(exchange).then(Mono.fromRunnable(() -> { // Mono(웹플럭스 스프링5 추가) : 비동기 방식 단일값 전달 시 사용
-//                if (config.isPostLogger()) {
-//                    log.info("Global filter end : response code -> {}", response.getStatusCode());
-//                }
-//            }));
-//        });
-
-        GatewayFilter filter = new OrderedGatewayFilter((exchange, chain) -> {
+        return new OrderedGatewayFilter((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
@@ -56,8 +39,6 @@ public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Co
             ));
 //        }, Ordered.HIGHEST_PRECEDENCE); // Logging 이 Global, Custom 보다 우선순위 높음
         }, Ordered.LOWEST_PRECEDENCE); // Logging 이 Global, Custom 보다 우선순위 낮음
-
-        return filter;
     }
 
     @Data

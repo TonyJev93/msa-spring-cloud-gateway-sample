@@ -39,5 +39,5 @@ spring:
         - name: GlobalFilter
           args:
             baseMessage: Spring Cloud Gateway Global Filter
-            preLogger: true
-            postLogger: true
+            preLogger: true # GlobalConfig.java > config.isPreLogger()
+            postLogger: true # GlobalConfig.java > config.isPostLogger()
