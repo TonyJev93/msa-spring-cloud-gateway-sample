@@ -35,6 +35,12 @@ spring:
                 baseMessage: Hi, there.
                 preLogger: true
                 postLogger: true
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates: # 조건정보
+            - Path=/user-service/** 
+          filters:
+            - CustomFilter
       default-filters: # 모든 서비스에 적용됨
         - name: GlobalFilter
           args:
